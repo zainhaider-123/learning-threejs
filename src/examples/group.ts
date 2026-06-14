@@ -26,12 +26,16 @@ const blueBox = new Three.Mesh(
     wireframe: true
   })
 )
+greenBox.position.z = -0.5
+redBox.position.x = -0.25
+blueBox.position.x = 0.25
 
-redBox.position.x = -1
-blueBox.position.x = 1
+
 
 const group = new Three.Group()
 group.add(redBox, greenBox, blueBox)
+
+group.rotation.x = Math.PI / 2
 
 scene.add(group)
 
@@ -53,8 +57,23 @@ const renderer = new Three.WebGLRenderer({
 
 renderer.setSize(size.width, size.height)
 
+// let time = Date.now()
+const timer = new Three.Timer()
+timer.connect(document)
+
 function animate() {
-  group.rotation.x += 0.01
+  // let timeFrame: = Date.now()
+  // let deltaTime = timeFrame - time
+  timer.update()
+  let deltaTime: number = timer.getDelta()
+  let elapsTime: number = timer.getElapsed()
+
+  // console.log(`Delta: ${deltaTime}`)
+  // console.log(`Elapsed: ${elapsTime}`)
+  group.rotation.x += 0.1 * deltaTime
+  greenBox.rotation.z += 1 * deltaTime
+
+  // time = timeFrame
   renderer.render(scene, camera)
   requestAnimationFrame(animate)
 }

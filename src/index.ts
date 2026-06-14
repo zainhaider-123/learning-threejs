@@ -1,4 +1,5 @@
 import './style.css'
 
-// import './lesson/basic'
-import './lesson/group'
+// import './examples/basic'
+// import './examples/group'
+import './examples/key-control'
