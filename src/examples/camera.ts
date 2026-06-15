@@ -14,13 +14,14 @@ const object = new THREE.Mesh(
   })
 )
 
-const size = { width: 600, height: 600 }
+const size = { width: window.innerWidth, height: window.innerHeight }
+
 
 // PERSPECTIVE CAMERA - options: angle, aspect ratio, near, far
-// const camera = new THREE.PerspectiveCamera(35, size.width / size.height, 1, 100)
+const camera = new THREE.PerspectiveCamera(35, size.width / size.height, 1, 100)
 
 // Orthographic Camera - options: left, right, top, bottom
-const camera = new THREE.OrthographicCamera(-1, 1, 1, -1)
+// const camera = new THREE.OrthographicCamera(-1, 1, 1, -1)
 
 camera.position.set(0, 0, 2)
 
@@ -32,10 +33,34 @@ const renderer = new THREE.WebGLRenderer({
   canvas: canvas
 })
 
-renderer.setSize(size.height, size.width)
+renderer.setSize(size.width, size.height)
+renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2))
 
 const timer = new THREE.Timer()
 timer.connect(document)
+
+window.addEventListener('resize', () => {
+  size.width = window.innerWidth,
+    size.height = window.innerHeight,
+
+    camera.aspect = size.width / size.height
+  camera.updateProjectionMatrix()
+
+  renderer.setSize(size.width, size.height)
+  renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2))
+})
+
+document.addEventListener('keydown', (e) => {
+  if (e.key.toLowerCase() === 'f') {
+    if (!document.fullscreenElement) {
+      canvas.requestFullscreen().catch(err => {
+        console.error('Failed to enter fullscreen:', err);
+      });
+    } else {
+      document.exitFullscreen();
+    }
+  }
+});
 
 // camera.lookAt(object.position)
 
