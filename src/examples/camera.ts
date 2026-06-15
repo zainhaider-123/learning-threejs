@@ -4,6 +4,10 @@ import { OrbitControls } from 'three/addons/controls/OrbitControls.js'
 const canvas = document.getElementById('webgl')
 if (!(canvas instanceof HTMLCanvasElement)) throw new Error('webgl not found')
 
+const body = document.querySelector('body')
+if (!(body instanceof HTMLBodyElement)) throw new Error('body tag not found')
+body.style.overflow = "hidden"
+
 const scene = new THREE.Scene()
 
 const object = new THREE.Mesh(
